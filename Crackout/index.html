@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+					<!DOCTYPE html>
 <html>
 <head>
 	<style type="text/css" media="screen">
@@ -6,6 +6,12 @@
 			border: 1px solid black;
 		}
 	</style>
+	<script src="js/helper.js"></script>
+	<script src="js/ball.js"></script>
+	<script src="js/paddle.js"></script>
+	<script src="js/block.js"></script>
+	<script src="js/game.js"></script>
+	<script src="js/level.js"></script>
 	<title></title>
 </head>
 <body>
@@ -13,68 +19,78 @@
 		
 	</canvas>
 	<script type="text/javascript">
-		var imageFromPath = function (path) {
-			var img = new Image()
-			img.src = path
-			return img
-		}
-		var Paddle = function () {
-			var img = imageFromPath('img/paddle.png')
-			var o = {
-				img : img,
-				x : 200,
-				y : 300,
-				speed : 5,
-			}
-			o.moveLeft = function () {
-				o.x -= o.speed
-			}
-			o.moveRight = function () {
-				o.x += o.speed
-			}
-			return o
-		}
+		
 
 		var __main = function () {
-			var log = console.log.bind(console)
-
-			var canvas = document.getElementById('id-canvas')
-			var context = canvas.getContext('2d')
 
 			var paddle = Paddle()
+			var ball = Ball()
+			var game = Game(30)
+			var blocks = []
 
-			var leftDown = rightDown = false
-			var fps = 30
+			var loadLevel = function (n) {
+				var n = n - 1
+				var level = levels[n]
+				var blocks = []
+			
+				for (var i = 0; i < level.length; i++) {
+					var p = level[i]
+					var b = Block(p)
+					blocks.push(b)
+				}
 
-			window.addEventListener('keydown', function (event) {
+				return blocks
+			}
+
+			game.registerAction(['a', 'ArrowLeft'], function () {
+				paddle.moveLeft()
+			})
+
+			game.registerAction(['d', 'ArrowRight'], function () {
+				paddle.moveRight()
+			})
+
+			game.registerAction('f', function () {
+				ball.trigger()
+			})
+
+			window.addEventListener('keydown', function(event) {
 				var k = event.key
-				if (k == 'a' || k == 'ArrowLeft') {
-					leftDown = true
-				} else if (k == 'd' || k == 'ArrowRight') {
-					rightDown = true
+				if (k == 'p') {
+					paused = !paused
+				} else if ('1234567'.includes(k)) {
+					blocks = loadLevel(Number(k))
 				}
 			})
 
-			window.addEventListener('keyup', function (event) {
-				var k = event.key
-				if (k == 'a' || k == 'ArrowLeft') {
-					leftDown = false
-				} else if (k == 'd' || k == 'ArrowRight') {
-					rightDown = false
+
+			game.update = function() {
+				if (paddle.collide(ball)) {
+					ball.rebund()
 				}
-			})
+				for (var i = 0; i < blocks.length; i++) {
+					var block = blocks[i]
 
-
-
-			setInterval(function () {
-				if (leftDown && (paddle.x > 0)) {
-					paddle.moveLeft()
-				} else if (rightDown && (paddle.x < 430)) {
-					paddle.moveRight()
+					if (block.collide(ball)) {
+						ball.rebund()
+						block.kill()
+					}
 				}
-				context.clearRect(0,0, canvas.width, canvas.height)
-				context.drawImage(paddle.img, paddle.x, paddle.y)
-			}, 1000/fps)
+				ball.move()
+			}
+
+			game.draw = function () {
+				game.drawImage(paddle)
+				for (var i = 0; i < blocks.length; i++) {
+					var block = blocks[i]
+
+					if (block.alive) {
+						game.drawImage(block)
+					}
+				}
+				game.drawImage(ball)
+			}
+
 		}
 		__main()
 	</script>
