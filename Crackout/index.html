@@ -18,81 +18,8 @@
 	<canvas id="id-canvas" height="350" width="500">
 		
 	</canvas>
-	<script type="text/javascript">
-		
-
-		var __main = function () {
-
-			var paddle = Paddle()
-			var ball = Ball()
-			var game = Game(30)
-			var blocks = []
-
-			var loadLevel = function (n) {
-				var n = n - 1
-				var level = levels[n]
-				var blocks = []
-			
-				for (var i = 0; i < level.length; i++) {
-					var p = level[i]
-					var b = Block(p)
-					blocks.push(b)
-				}
-
-				return blocks
-			}
-
-			game.registerAction(['a', 'ArrowLeft'], function () {
-				paddle.moveLeft()
-			})
-
-			game.registerAction(['d', 'ArrowRight'], function () {
-				paddle.moveRight()
-			})
-
-			game.registerAction('f', function () {
-				ball.trigger()
-			})
-
-			window.addEventListener('keydown', function(event) {
-				var k = event.key
-				if (k == 'p') {
-					paused = !paused
-				} else if ('1234567'.includes(k)) {
-					blocks = loadLevel(Number(k))
-				}
-			})
-
-
-			game.update = function() {
-				if (paddle.collide(ball)) {
-					ball.rebund()
-				}
-				for (var i = 0; i < blocks.length; i++) {
-					var block = blocks[i]
-
-					if (block.collide(ball)) {
-						ball.rebund()
-						block.kill()
-					}
-				}
-				ball.move()
-			}
-
-			game.draw = function () {
-				game.drawImage(paddle)
-				for (var i = 0; i < blocks.length; i++) {
-					var block = blocks[i]
-
-					if (block.alive) {
-						game.drawImage(block)
-					}
-				}
-				game.drawImage(ball)
-			}
-
-		}
-		__main()
-	</script>
+	<br>
+	<input type="range" value="1" max="100" min="1" id="fps-range">
+	<script src="js/main.js"></script>
 </body>
 </html>
