@@ -3,6 +3,7 @@ var Game = function(fps, images, runCallback) {
     var context = canvas.getContext('2d')
 
     var g = {
+        scene: null,
         canvas: canvas,
         context: context,
         actions: {},
@@ -58,10 +59,10 @@ var Game = function(fps, images, runCallback) {
             }
         }
 
-        g.update()
+        g.scene.update()
 
         context.clearRect(0, 0, canvas.width, canvas.height)
-        g.draw()
+        g.scene.draw()
 
         setTimeout(function() {
             runloop()
@@ -90,11 +91,20 @@ var Game = function(fps, images, runCallback) {
         }
     }
 
-    g.run = function() {
-        runCallback()
+    g.replaceScene = function(scene) {
+        g.scene = scene
+    }
+
+    g.runWithScene = function(scene) {
+        g.scene = scene
+
         setTimeout(function() {
             runloop()
         }, 1000/window.fps)
+    }
+
+    g.run = function() {
+        runCallback(g)
     }
 
     return g
