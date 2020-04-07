@@ -1,4 +1,4 @@
-var Game = function(fps) {
+var Game = function(fps, images, runCallback) {
     var canvas = document.querySelector('#id-canvas')
     var context = canvas.getContext('2d')
 
@@ -7,6 +7,7 @@ var Game = function(fps) {
         context: context,
         actions: {},
         keydowns: {},
+        images: {},
     }
 
     g.drawImage = function(img) {
@@ -15,6 +16,17 @@ var Game = function(fps) {
         let height = img.height || image.height
 
         g.context.drawImage(image, img.x, img.y, width, height)
+    }
+
+    g.imageByName = function(name) {
+        var img = g.images[name]
+        var image = {
+            w: img.width,
+            h: img.height,
+            image: img,
+        }
+
+        return image
     }
 
     window.addEventListener('keydown', function(event) {
@@ -34,7 +46,7 @@ var Game = function(fps) {
         g.actions[key] = callback
     }
 
-    window.fps = 30
+    window.fps = fps
     var runloop = function() {
 
         var actions = Object.keys(g.actions)
@@ -47,6 +59,7 @@ var Game = function(fps) {
         }
 
         g.update()
+
         context.clearRect(0, 0, canvas.width, canvas.height)
         g.draw()
 
@@ -55,9 +68,34 @@ var Game = function(fps) {
         }, 1000/window.fps)
     }
 
-    setTimeout(function() {
-        runloop()
-    }, 1000/window.fps)
+    var loads = []
+    var names = Object.keys(images)
+
+    for (var i = 0; i < names.length; i++) {
+
+        var name = names[i]
+        var path = images[name]
+
+        var img = new Image()
+        img.src = path
+        g.images[name] = img
+
+        img.onload = function() {
+            g.images[name] = img
+            loads.push(1)
+
+            if (loads.length == names.length) {
+                g.run()
+            }
+        }
+    }
+
+    g.run = function() {
+        runCallback()
+        setTimeout(function() {
+            runloop()
+        }, 1000/window.fps)
+    }
 
     return g
 }

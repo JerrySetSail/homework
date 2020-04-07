@@ -1,17 +1,13 @@
-
-var Block = function(position) {
-    var image = imageFromPath('img/block.png')
+var Block = function(game, position) {
     var p = position
-    var o = {
-        image: image,
-        x: p[0],
-        y: p[1],
-        width: 50,
-        height: 20,
-        health: p[2] || 1,
-        alive: true,
-    }
+    var o = game.imageByName('block')
 
+    o.x = p[0]
+    o.y = p[1]
+    o.width = 50
+    o.height = 20
+    o.health = p[2] || 1
+    o.alive = true
 
     o.kill = function() {
         o.health--
