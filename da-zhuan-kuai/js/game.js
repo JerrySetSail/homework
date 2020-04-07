@@ -1,25 +1,99 @@
-var Game = function(fps, images, runCallback) {
-    var canvas = document.querySelector('#id-canvas')
-    var context = canvas.getContext('2d')
+class Game {
+    constructor(fps, images, runCallback) {
+        this.fps = fps
+        this.images = images
+        this.runCallback = runCallback
 
-    var g = {
-        scene: null,
-        canvas: canvas,
-        context: context,
-        actions: {},
-        keydowns: {},
-        images: {},
+        this.scene = null
+        this.actions = {}
+        this.keydowns = {}
+        this.instance = null
+
+        this.canvas = document.querySelector('#id-canvas')
+        this.context = this.canvas.getContext('2d')
+        this.init()
     }
 
-    g.drawImage = function(img) {
+    init() {
+        var self = this
+        window.fps = this.fps
+
+        window.addEventListener('keydown', function(event) {
+            self.keydowns[event.key] = true
+        })
+
+        window.addEventListener('keyup', function(event) {
+            self.keydowns[event.key] = false
+        })
+
+        document.querySelector('#fps-range').addEventListener('input', function(event) {
+            var val = Number(event.target.value)
+            window.fps = val
+        })
+
+        var loads = []
+        var names = Object.keys(self.images)
+        var g = this
+
+        for (var i = 0; i < names.length; i++) {
+
+            var name = names[i]
+            var path = self.images[name]
+
+            var img = new Image()
+            img.src = path
+            g.images[name] = img
+
+            img.onload = function() {
+                g.images[name] = img
+                loads.push(1)
+
+                if (loads.length == names.length) {
+                    g.run()
+                }
+            }
+        }
+    }
+
+    static instance(...args) {
+        this.i = this.i || new this(...args)
+        return this.i
+    }
+
+    replaceScene(scene) {
+        var g = this
+        g.scene = scene
+    }
+
+    runWithScene(scene) {
+        var g = this
+        g.scene = scene
+
+        setTimeout(function() {
+            g.runloop()
+        }, 1000/window.fps)
+    }
+
+    run() {
+        var g = this
+        this.runCallback(g)
+    }
+
+    registerAction(key, callback) {
+        var g = this
+        g.actions[key] = callback
+    }
+
+    drawImage(img) {
         var image = img.image
         let width = img.width || image.width
         let height = img.height || image.height
 
-        g.context.drawImage(image, img.x, img.y, width, height)
+        this.context.drawImage(img.image, img.x, img.y, width, height)
     }
 
-    g.imageByName = function(name) {
+    imageByName(name) {
+        var g = this
         var img = g.images[name]
         var image = {
             w: img.width,
@@ -30,26 +104,8 @@ var Game = function(fps, images, runCallback) {
         return image
     }
 
-    window.addEventListener('keydown', function(event) {
-        g.keydowns[event.key] = true
-    })
-
-    window.addEventListener('keyup', function(event) {
-        g.keydowns[event.key] = false
-    })
-
-    document.querySelector('#fps-range').addEventListener('input', function(event) {
-        var val = Number(event.target.value)
-        window.fps = val
-    })
-
-    g.registerAction = function(key, callback) {
-        g.actions[key] = callback
-    }
-
-    window.fps = fps
-    var runloop = function() {
-
+    runloop() {
+        var g = this
         var actions = Object.keys(g.actions)
         for (var i = 0; i < actions.length; i++) {
             var k = actions[i]
@@ -61,51 +117,12 @@ var Game = function(fps, images, runCallback) {
 
         g.scene.update()
 
-        context.clearRect(0, 0, canvas.width, canvas.height)
+        g.context.clearRect(0, 0, g.canvas.width, g.canvas.height)
         g.scene.draw()
 
         setTimeout(function() {
-            runloop()
+            g.runloop()
         }, 1000/window.fps)
     }
-
-    var loads = []
-    var names = Object.keys(images)
-
-    for (var i = 0; i < names.length; i++) {
-
-        var name = names[i]
-        var path = images[name]
-
-        var img = new Image()
-        img.src = path
-        g.images[name] = img
-
-        img.onload = function() {
-            g.images[name] = img
-            loads.push(1)
-
-            if (loads.length == names.length) {
-                g.run()
-            }
-        }
-    }
-
-    g.replaceScene = function(scene) {
-        g.scene = scene
-    }
-
-    g.runWithScene = function(scene) {
-        g.scene = scene
-
-        setTimeout(function() {
-            runloop()
-        }, 1000/window.fps)
-    }
-
-    g.run = function() {
-        runCallback(g)
-    }
-
-    return g
 }
+

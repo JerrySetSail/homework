@@ -43,10 +43,11 @@ var _main = function() {
         'block': 'img/block.png',
     }
 
-    var game = Game(30, images, function(g) {
-        var scene = Scene(g)
+    var game = Game.instance(30, images, function(g) {
+        var scene = new SceneTitle(g)
         g.runWithScene(scene)
     })
+    log('g', game)
     enableDebugMode(game, true)
 
 }
