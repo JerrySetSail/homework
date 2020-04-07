@@ -4,15 +4,21 @@ var Paddle = function() {
         image: image,
         x: 230,
         y: 300,
-        speed: 5,
+        speed: 10,
     }
 
-    o.moveLeft = function() {
-        o.x -= o.speed
-    }
 
-    o.moveRight = function() {
-        o.x += o.speed
+    o.moveLeft = function () {
+        if (o.x > 0) {
+            o.x -= o.speed
+        }
+    }
+    
+    o.moveRight = function () {
+        let w = o.width || o.image.width
+        if ((o.x + w) < document.getElementById('id-canvas').width) {
+            o.x += o.speed
+        }
     }
 
     o.collide = function (ball) {

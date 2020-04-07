@@ -1,4 +1,4 @@
-var Game = function() {
+var Game = function(fps) {
     var canvas = document.querySelector('#id-canvas')
     var context = canvas.getContext('2d')
 
@@ -25,11 +25,17 @@ var Game = function() {
         g.keydowns[event.key] = false
     })
 
+    document.querySelector('#fps-range').addEventListener('input', function(event) {
+        var val = Number(event.target.value)
+        window.fps = val
+    })
+
     g.registerAction = function(key, callback) {
         g.actions[key] = callback
     }
 
-    setInterval(function() {
+    window.fps = 30
+    var runloop = function() {
 
         var actions = Object.keys(g.actions)
         for (var i = 0; i < actions.length; i++) {
@@ -44,7 +50,14 @@ var Game = function() {
         context.clearRect(0, 0, canvas.width, canvas.height)
         g.draw()
 
-    }, 1000/30)
+        setTimeout(function() {
+            runloop()
+        }, 1000/window.fps)
+    }
+
+    setTimeout(function() {
+        runloop()
+    }, 1000/window.fps)
 
     return g
 }
