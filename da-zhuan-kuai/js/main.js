@@ -36,7 +36,6 @@ var enableDebugMode = function(game, enable) {
 
 var _main = function() {
 
-    enableDebugMode(game, true)
 
     var images = {
         'ball': 'img/ball.png',
@@ -48,7 +47,8 @@ var _main = function() {
         var paddle = Paddle(game)
         var score = 0
         var ball = Ball(game)
-        var blocks = loadLevel(game, 3)
+
+        blocks = loadLevel(game, 3)
         paused = false
 
         game.registerAction('a', function () {
@@ -82,7 +82,35 @@ var _main = function() {
             }
         }
 
+        var enableDrag = false
+        game.canvas.addEventListener('mousedown', function(event) {
+            var e = event
+            var x = e.layerX
+            var y = e.layerY
+            if (ball.hasPoint(x, y)) {
+                enableDrag = true
+            }
+        })
+
+        game.canvas.addEventListener('mousemove', function(event) {
+            var e = event
+            var x = e.layerX
+            var y = e.layerY
+
+            if (enableDrag) {
+                ball.x = x
+                ball.y = y
+            }
+        })
+
+        game.canvas.addEventListener('mouseup', function(event) {
+            enableDrag= false
+        })
+
         game.draw = function() {
+            //背景
+            game.context.fillStyle = '#553'
+            game.context.fillRect(0, 0, 500, 350)
             game.drawImage(paddle)
             game.drawImage(ball)
 
@@ -98,6 +126,7 @@ var _main = function() {
         }
 
     })
+    enableDebugMode(game, true)
 
 }
 

@@ -33,5 +33,9 @@ var Ball = function(game) {
         o.fired = true
     }
 
+    o.hasPoint = function (x, y) {
+        // 判断一点是否在矩形中
+        return x >= o.x && x <= o.x + o.w && y >= o.y && y <= o.y + o.h
+    }
     return o
 }
