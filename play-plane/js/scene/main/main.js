@@ -34,14 +34,37 @@ var _main = function() {
         'enemy2': 'img/npc2.png',
         'enemy3': 'img/npc3.png',
         'enemy4': 'img/npc4.png',
+        'fire': 'img/light.png',
     }
 
     var game = Game.instance(30, images, function(g) {
-        var scene = new Scene(g)
+        // var scene = new Scene(g)
+        var scene = new SceneTitle(g)
         g.runWithScene(scene)
     })
     enableDebugMode(game, true)
 
+    var es = sel => document.querySelectorAll(sel)
+
+    var bindAll = function(sel, eventName, callback) {
+        var l = es(sel)
+        for (var i = 0; i < l.length; i++) {
+            var input = l[i]
+            input.addEventListener(eventName, function(event) {
+                callback(event)
+            })
+        }
+    }
+
+    bindAll('.auto-slider', 'input', function(event) {
+        var target = event.target
+        var bindVar = target.dataset.value
+        var v = target.value
+        eval(bindVar + '=' + v)
+
+        var label = target.closest('label').querySelector('.game-label')
+        label.innerText = v
+    })
 }
 
 _main()

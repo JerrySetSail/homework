@@ -14,7 +14,6 @@ class Enemy extends GameImage {
 
     update() {
         this.y += this.speed
-        log('s', this.speed)
         if (this.y > 750) {
             this.setup()
         }

@@ -14,6 +14,7 @@ class GameImage {
     }
 
     draw() {
+        this.game.drawImage(this)
     }
 
     update() {
