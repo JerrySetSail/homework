@@ -1,11 +1,12 @@
-class Bullet extends GameImage {
+class EnemyBullet extends GameImage {
     constructor(game) {
-        super(game, 'bullet')
-        this.setup()
+        super(game, 'enemy_bullet')
         this.setup()
     }
 
     setup() {
+        this.w = 5
+        this.h = 5
     }
 
     setup() {
@@ -13,7 +14,7 @@ class Bullet extends GameImage {
     }
 
     update() {
-        this.y -= this.speed
+        this.y += this.speed
 
         if (this.y <= -this.h) {
             this.die()

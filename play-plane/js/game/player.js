@@ -29,6 +29,25 @@ class Player extends GameImage {
         }
     }
 
+    wreck(element) {
+        if (this.collide(element)) {
+            this.die()
+        }
+    }
+
+    collide(element) {
+        var ball = element
+        var o = this
+        let interval = (ball.x - o.x)
+        if (interval < -ball.w) {
+            return false
+        }
+        let yCollide = ball.y < o.y && ball.y >= (o.y - o.h)
+        let xCollide = (o.x == ball.x) || (o.w >= interval)
+
+        return yCollide && xCollide
+    }
+
     moveLeft() {
         this.x -= this.speed
     }

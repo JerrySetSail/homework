@@ -6,6 +6,7 @@ class GameImage {
         this.y = 0
         this.w = this.texture.width
         this.h = this.texture.height
+        this.alive = true
     }
 
     static new(...args) {
@@ -15,6 +16,14 @@ class GameImage {
 
     draw() {
         this.game.drawImage(this)
+    }
+
+    isAlive() {
+        return this.alive
+    }
+
+    die() {
+        this.alive = false
     }
 
     update() {

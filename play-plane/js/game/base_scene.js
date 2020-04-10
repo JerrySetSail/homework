@@ -10,6 +10,10 @@ class BaseScene {
         this.elements.push(gameImage)
     }
 
+    delElement(index) {
+        this.elements.splice(index, 1)
+    }
+
     draw() {
         for (var e of this.elements){
             // this.game.drawImage(e)

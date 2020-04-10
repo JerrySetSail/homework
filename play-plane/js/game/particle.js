@@ -25,7 +25,7 @@ class Particle extends GameImage {
         this.life--
         this.x += this.vx
         this.y += this.vy
-        var factor = 0.01
+        var factor = 0.02
         this.vx += factor * this.vx
         this.vy += factor * this.vy
     }

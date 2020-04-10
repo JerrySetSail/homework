@@ -25,6 +25,7 @@ var _main = function() {
 
     var images = {
         'bullet': 'img/bullet1.png',
+        'enemy_bullet': 'img/bullet2.png',
         'cloud': 'img/cloud.jpg',
         'cloud1': 'img/cloud1.png',
         'player': 'img/myPlane.gif',
@@ -38,8 +39,8 @@ var _main = function() {
     }
 
     var game = Game.instance(30, images, function(g) {
-        // var scene = new Scene(g)
-        var scene = new SceneTitle(g)
+        var scene = new Scene(g)
+        // var scene = new SceneTitle(g)
         g.runWithScene(scene)
     })
     enableDebugMode(game, true)

@@ -13,14 +13,30 @@ class ParticleSystem {
         this.y = 200
         this.numberOfParticles = 20
         this.particles = []
+        this.alive = true
+        this.aliveTime = 20
+    }
+
+    isAlive() {
+        return this.alive
+    }
+
+    die() {
+        this.alive = false
     }
 
     update() {
+        this.aliveTime--
+        if(this.aliveTime <= 0) {
+            this.die()
+        }
+
         if (this.particles.length < this.numberOfParticles) {
             var p = Particle.new(this.game)
             var s = 2
             var vx = randomBetween(-s, s)
             var vy = randomBetween(-s, s)
+
             p.init(this.x, this.y, vx, vy)
             this.particles.push(p)
         }

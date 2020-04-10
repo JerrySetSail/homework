@@ -15,9 +15,7 @@ class Scene extends BaseScene {
         this.cloud.w = 100
         this.cloud.h = 80
 
-        this.bullet = Bullet.new(game)
 
-        // this.player = GameImage.new(this.game, 'player')
         this.player = Player.new(game)
         this.player.x = 190
         this.player.y = 650
@@ -25,7 +23,6 @@ class Scene extends BaseScene {
         this.addElement(this.bg)
         this.addElement(this.cloud)
         this.addElement(this.player)
-        this.addElement(this.bullet)
         this.addEnemies()
     }
 
@@ -37,6 +34,12 @@ class Scene extends BaseScene {
             this.addElement(e)
         }
         this.enemies = es
+    }
+
+    checkIsWreckEnemy(bullet) {
+        for(var e of this.enemies) {
+            e.wreck(bullet)
+        }
     }
 
     setupInputs() {
@@ -67,5 +70,37 @@ class Scene extends BaseScene {
     update() {
         super.update()
         this.cloud.y += 1
+        this.handleElements()
+    }
+
+    handleElements() {
+        for (var i = 0; i < this.elements.length; i++) {
+            var e = this.elements[i]
+            var name = e.constructor.name
+
+            if (e.isAlive() === false) {
+                if (name == 'Enemy') {
+                    var ps = ParticleSystem.new(this.game)
+                    this.addElement(ps)
+                    ps.x = e.x
+                    ps.y = e.y
+                } else if(name == 'Player') {
+                    var end = SceneEnd.new(this.game)
+                    this.game.replaceScene(end)
+                }
+
+                this.delElement(i)
+
+                continue
+            }
+
+            if (name == 'Bullet') {
+                this.checkIsWreckEnemy(e)
+            }
+
+            if (name == 'EnemyBullet' || name == 'Enemy') {
+                this.player.wreck(e)
+            }
+        }
     }
 }

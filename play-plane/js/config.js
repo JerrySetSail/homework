@@ -4,4 +4,5 @@ const config = {
     enemy_speed: 5,
     bullet_speed: 5,
     fire_cooldown: 3,
+    enemy_bullet_speed: 7,
 }
