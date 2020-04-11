@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style type="text/css" media="screen">
+		#id-canvas {
+			border: 1px solid black;
+		}
+	</style>
+	<meta charset="UTF-8">
+	<script src="js/helper.js"></script>
+	<script src="js/config.js"></script>
+
+	<script src="js/game.js"></script>
+	<script src="js/game/base_scene.js"></script>
+
+	<script src="js/game/game_image.js"></script>
+	<script src="js/game_animation.js"></script>
+	<script src="js/game/player.js"></script>
+	<script src="js/game/enemy.js"></script>
+	<script src="js/game/enemy_bullet.js"></script>
+	<script src="js/game/cloud.js"></script>
+	<script src="js/game/bullet.js"></script>
+	<script src="js/game/particle_system.js"></script>
+	<script src="js/game/particle.js"></script>
+
+	<script src="js/scene/main/scene.js"></script>
+	<script src="js/scene/end/scene_end.js"></script>
+	<script src="js/scene/title/scene_title.js"></script>
+	<script src="js/scene/title/game_label.js"></script>
+
+	<script src="js/scene/main/paddle.js"></script>
+	<script src="js/scene/main/ball.js"></script>
+	<script src="js/scene/main/block.js"></script>
+	<title></title>
+</head>
+
+<body>
+	<canvas id="id-canvas" height="614.4" width="345.6">
+		
+	</canvas>
+	<br>
+	<input type="range" value="1" max="100" min="1" id="fps-range">
+	<div class="log-div" style="display:none">
+		<textarea id="text-log" rows="20" cols="100">
+		</textarea>
+	</div>
+	<div class="slide-bars">
+		<label>
+			<input class='auto-slider' type='range'
+				   value=''
+				   data-value='config.player_speed'
+			>
+			玩家速度：<span class="game-label"></span>
+		</label>
+	</div>
+
+	<div class="slide-bars">
+		<label>
+			<input class='auto-slider' type='range'
+				   value=''
+				   data-value='config.bullet_speed'
+			>
+			子弹速度：<span class="game-label"></span>
+		</label>
+	</div>
+
+	<div class="slide-bars">
+		<label>
+			<input class='auto-slider' type='range'
+				   max="20"
+				   min="1"
+				   value=''
+				   data-value='config.fire_cooldown'
+			>
+			子弹冷却时间：<span class="game-label"></span>
+		</label>
+	</div>
+
+	<div class="slide-bars">
+		<label>
+			<input class='auto-slider' type='range'
+				   max="10"
+				   min="-10"
+				   value=''
+				   data-value='config.cloud_speed'
+			>
+			云速度：<span class="game-label"></span>
+		</label>
+	</div>
+	<script src="js/scene/main/main.js"></script>
+</body>
+</html>
