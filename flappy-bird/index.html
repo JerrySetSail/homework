@@ -22,6 +22,7 @@
 	<script src="js/game/bullet.js"></script>
 	<script src="js/game/particle_system.js"></script>
 	<script src="js/game/particle.js"></script>
+	<script src="js/game/pipe.js"></script>
 
 	<script src="js/scene/main/scene.js"></script>
 	<script src="js/scene/end/scene_end.js"></script>
@@ -39,54 +40,14 @@
 		
 	</canvas>
 	<br>
-	<input type="range" value="1" max="100" min="1" id="fps-range">
 	<div class="log-div" style="display:none">
 		<textarea id="text-log" rows="20" cols="100">
 		</textarea>
 	</div>
-	<div class="slide-bars">
-		<label>
-			<input class='auto-slider' type='range'
-				   value=''
-				   data-value='config.player_speed'
-			>
-			玩家速度：<span class="game-label"></span>
-		</label>
+
+	<div class="game-controls">
 	</div>
 
-	<div class="slide-bars">
-		<label>
-			<input class='auto-slider' type='range'
-				   value=''
-				   data-value='config.bullet_speed'
-			>
-			子弹速度：<span class="game-label"></span>
-		</label>
-	</div>
-
-	<div class="slide-bars">
-		<label>
-			<input class='auto-slider' type='range'
-				   max="20"
-				   min="1"
-				   value=''
-				   data-value='config.fire_cooldown'
-			>
-			子弹冷却时间：<span class="game-label"></span>
-		</label>
-	</div>
-
-	<div class="slide-bars">
-		<label>
-			<input class='auto-slider' type='range'
-				   max="10"
-				   min="-10"
-				   value=''
-				   data-value='config.cloud_speed'
-			>
-			云速度：<span class="game-label"></span>
-		</label>
-	</div>
 	<script src="js/scene/main/main.js"></script>
 </body>
 </html>

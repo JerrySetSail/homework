@@ -7,6 +7,9 @@ class GameImage {
         this.w = this.texture.width
         this.h = this.texture.height
         this.alive = true
+
+        this.flipY = false
+        this.rotation = 0
     }
 
     static new(...args) {

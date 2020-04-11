@@ -28,6 +28,7 @@ class GameAnimation {
 
         this.gy = 10
         this.vy = 0
+        this.standbyTime = 50
     }
 
     static new(game) {
@@ -62,28 +63,47 @@ class GameAnimation {
     jump() {
         this.vy = -10
         this.rotation = -45
+        this.standbyTime = 0
     }
 
     update() {
-        this.y += this.vy
-        this.vy += this.gy * 0.2
-        // log('y', this.y)
-        // log('vy', this.vy)
-        
-        var h = 550
-        if (this.y > h) {
-            this.y = h
+        this.standbyTime--
+        log('s', this.standbyTime)
+        if (this.standbyTime < 0) {
+
+            this.y += this.vy
+            this.vy += this.gy * 0.2
+
+            var h = 550
+            if (this.y > h) {
+                var end = SceneEnd.new(this.game)
+                this.game.replaceScene(end)
+            }
+
+            if (this.rotation < 45) {
+                this.rotation += 5
+            }
         }
 
-        if (this.rotation < 45) {
-            this.rotation += 5
-        }
-        
+
         this.frameCount--
         if (this.frameCount == 0) {
             this.frameCount = 3
             this.frameIndex = (this.frameIndex + 1) % this.frames().length
             this.texture = this.frames()[this.frameIndex]
+        }
+    }
+
+
+
+    collide(pipe) {
+        var o = this
+		let res = rectIntersects(o, pipe) || rectIntersects(pipe, o)
+
+        if (res) {
+            var end = SceneEnd.new(this.game)
+            this.game.replaceScene(end)
+            log('collide')
         }
     }
 

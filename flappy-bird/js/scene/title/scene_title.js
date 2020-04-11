@@ -7,6 +7,9 @@ class SceneTitle extends BaseScene {
         bg.h = 614.4
         this.addElement(bg)
 
+        this.pipe = Pipes.new(game)
+        this.addElement(this.pipe)
+
         this.grounds = []
         for (var i = 0; i < 5; i++) {
             var g = GameImage.new(game, 'ground')
@@ -30,12 +33,6 @@ class SceneTitle extends BaseScene {
     setupInputs() {
         var self = this
         var b = this.bird
-        // self.game.registerAction('a', function(keyStatus) {
-        //     b.move(-2, keyStatus)
-        // })
-        // self.game.registerAction('d', function(keyStatus) {
-        //     b.move(2, keyStatus)
-        // })
         self.game.registerAction('j', function(keyStatus) {
             b.jump(2, keyStatus)
         })
@@ -59,6 +56,20 @@ class SceneTitle extends BaseScene {
         for (var i = 0; i < 5; i++) {
             var g = this.grounds[i]
             g.x += offset
+        }
+
+        for (e of this.elements) {
+            var name = e.constructor.name
+            if (name == 'Pipes') {
+                var pipes = e.pipes
+                for (var p of pipes) {
+                    this.bird.collide(p)
+                    // log('p', p)
+                }
+                // log('p', e.pipes)
+                // this.bird.collide(e)
+            }
+
         }
     }
 }

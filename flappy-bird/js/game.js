@@ -26,11 +26,6 @@ class Game {
             self.keydowns[event.key] = false
         })
 
-        document.querySelector('#fps-range').addEventListener('input', function(event) {
-            var val = Number(event.target.value)
-            window.fps = val
-        })
-
         var loads = []
         var names = Object.keys(self.images)
         var g = this

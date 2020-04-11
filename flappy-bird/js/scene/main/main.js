@@ -24,19 +24,6 @@ var _main = function() {
 
 
     var images = {
-        // 'bullet': 'img/bullet1.png',
-        // 'enemy_bullet': 'img/bullet2.png',
-        // 'cloud': 'img/cloud.jpg',
-        // 'cloud1': 'img/cloud1.png',
-        // 'player': 'img/myPlane.gif',
-        // 'sky': 'img/sky.jpg',
-        // 'enemy0': 'img/npc0.png',
-        // 'enemy1': 'img/npc1.png',
-        // 'enemy2': 'img/npc2.png',
-        // 'enemy3': 'img/npc3.png',
-        // 'enemy4': 'img/npc4.png',
-        // 'fire': 'img/light.png',
-
         b1: 'img/b1.png',
         b2: 'img/b2.png',
         b3: 'img/b3.png',
@@ -44,6 +31,7 @@ var _main = function() {
         bg: 'img/background.png',
         ground: 'img/fence.png',
         b3: 'img/b3.png',
+        pipe: 'img/pipe.png',
     }
 
     var game = Game.instance(30, images, function(g) {
@@ -65,15 +53,47 @@ var _main = function() {
         }
     }
 
-    bindAll('.auto-slider', 'input', function(event) {
-        var target = event.target
-        var bindVar = target.dataset.value
-        var v = target.value
-        eval(bindVar + '=' + v)
+    var bindEvents = function() {
 
-        var label = target.closest('label').querySelector('.game-label')
-        label.innerText = v
-    })
+        bindAll('.auto-slider', 'input', function(event) {
+            var target = event.target
+            var bindVar = target.dataset.value
+            var v = target.value
+            eval(bindVar + '.value =' + v)
+
+            var label = target.closest('label').querySelector('.game-label')
+            label.innerText = v
+        })
+    }
+
+    var templateControl = function(key, item) {
+        var t = `
+        <div class="slide-bars">
+            <label>
+                <input class='auto-slider' type='range'
+max='300'
+                    value='${item.value}'
+                    data-value='config.${key}'
+                >
+                ${item._comment}：<span class="game-label"></span>
+            </label>
+        </div>`
+
+        return t
+    }
+
+    var insertControls = function() {
+        var keys = Object.keys(config)
+        var div = e('.game-controls')
+        for (var k of keys) {
+            var item = config[k]
+            var html = templateControl(k, item)
+            div.insertAdjacentHTML('beforeend', html)
+        }
+    }
+
+    insertControls()
+    bindEvents()
 }
 
 _main()
