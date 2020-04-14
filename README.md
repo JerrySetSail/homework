@@ -1,9 +1,9 @@
 <<<<<<< HEAD
-![bird](https://bitbucket.org/JerryChanGo/homework/raw/aaf49a07598074f65bc1a5d088325e710900f49c/gif/bird.gif)
+![bird](https://github.com/JerryChan93/homework/blob/master/gif/bird.gif?raw=true)
 
-![打砖块](https://bitbucket.org/JerryChanGo/homework/raw/aaf49a07598074f65bc1a5d088325e710900f49c/gif/打砖块.gif)
+![打砖块](https://github.com/JerryChan93/homework/blob/master/gif/打砖块.gif?raw=true)
 
-![打飞机](https://bitbucket.org/JerryChanGo/homework/raw/aaf49a07598074f65bc1a5d088325e710900f49c/gif/打飞机.gif)
+![打飞机](https://github.com/JerryChan93/homework/blob/master/gif/打飞机.gif?raw=true)
 
 =======
 **Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
