@@ -22,6 +22,10 @@ var Scene = function(game) {
         ball.fire()
     })
 
+    game.registerAction('j', function () {
+        ball.fire()
+    })
+
     s.draw = function() {
         //背景
         game.context.fillStyle = '#553'
